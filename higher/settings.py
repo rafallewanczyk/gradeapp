@@ -25,7 +25,7 @@ SECRET_KEY = 'u$ihb*m6hsg9g7w*6h9ghs00$zogw9^8y3guk88)97l^s#!m3n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-gradeapp.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['django-gradeapp.herokuapp.com', 'localhost:8000']
 
 
 # Application definition
@@ -76,11 +76,15 @@ WSGI_APPLICATION = 'higher.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ddsb7odi09bmf6',
+        'HOST': 'ec2-54-90-68-208.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'tqfeqyepscmkax',
+        'PASSWORD': '71121e4df656ba2d2ae3821a6dd323120d246bfc75a85f693932d9ebc0c5890e'
+
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
