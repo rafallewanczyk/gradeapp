@@ -25,7 +25,7 @@ SECRET_KEY = 'u$ihb*m6hsg9g7w*6h9ghs00$zogw9^8y3guk88)97l^s#!m3n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-gradeapp.herokuapp.com', 'localhost']
 
 
 # Application definition
