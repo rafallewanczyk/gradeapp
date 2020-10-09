@@ -1,4 +1,4 @@
-from statistics import mean
+from statistics import mean, StatisticsError
 
 from rest_framework import serializers
 
@@ -8,7 +8,12 @@ class CandidateResult:
         self.pk = pk
         self.full_name = full_name
         self.grades = grades
-        self.avg_grade = mean(self.grades)
+        try:
+            self.avg_grade = mean(self.grades)
+        except StatisticsError:
+            self.avg_grade = 0
+
+
 
 
 class CandidateResultSerializer(serializers.Serializer):

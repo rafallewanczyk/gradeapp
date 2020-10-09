@@ -5,6 +5,7 @@ from .serializers import CandidateResult, CandidateResultSerializer
 from .forms import AddMarkForm
 from .models import Grade
 from .models import Candidate
+from django.db import IntegrityError
 
 
 class AddMarkView(FormView):
@@ -21,7 +22,7 @@ class AddMarkView(FormView):
         query = Grade(candidate=candidate, value=int(value), recruiter=recruiter, task=task)
         try:
             query.save()
-        except Exception:
+        except IntegrityError:
             return HttpResponse("Task already graded for this candidate")
 
         return super().form_valid(form)
