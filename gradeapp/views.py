@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from collections import OrderedDict
+
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import FormView, UpdateView, ListView
 from .serializers import CandidateResult, CandidateResultSerializer
@@ -23,16 +24,26 @@ class AddMarkView(FormView):
         try:
             query.save()
         except IntegrityError:
-            return HttpResponse("Task already graded for this candidate")
+            return HttpResponse("Task already graded for this candidate", status=409)
 
         return super().form_valid(form)
 
 
 def candidates_results(request):
     candidates = Candidate.objects.all()
-    results = []
+    grades = Grade.objects.all()
+
+    dictionary = OrderedDict()
     for candidate in candidates:
-        grades = [g.value for g in Grade.objects.filter(candidate__exact=candidate)]
-        results.append(CandidateResult(candidate.pk, candidate, grades))
+        dictionary[candidate] = CandidateResult(candidate.pk, candidate, [])
+
+    for g in grades:
+        dictionary[g.candidate].grades.append(g.value)
+
+    for row in dictionary:
+        dictionary.get(row).update_average()
+
+    results = [dictionary.get(candidate) for candidate in dictionary]
+
     serializer = CandidateResultSerializer(results, many=True)
     return JsonResponse({'data': serializer.data}, safe=False)
